@@ -9,4 +9,10 @@ RUN mkdir -p /run/nginx \
     && mkdir -p /run/openrc \
     && touch /run/openrc/softlevel
 
+RUN mkdir /usr/share/nginx/html
+
+COPY etc/nginx.conf /etc/nginx/nginx.conf
+COPY html/index.html /usr/share/nginx/html/index.html
+COPY etc/conf.d/default.conf /etc/nginx/conf.d/default.conf
+
 ENTRYPOINT ["sh","-c", "rc-status; rc-service nginx start; crond -f"]
