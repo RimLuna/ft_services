@@ -15,6 +15,9 @@ RUN adduser \
     -H \
     stalin
 
+COPY srcs/passwd.sh /passwd.sh
+RUN chmod +x /passwd.sh
+
 ## add nginx user
 RUN adduser -D -g 'www' www
 
@@ -34,7 +37,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048\
   -subj "/C=MA/ST=Stalingrad/L=-/O=-/CN=127.0.0.1"
 
 COPY srcs/script.sh /script.sh
-RUN chmod +x /script.sh
+RUN chmod +x /script.sh 
 
 EXPOSE 80 443 22
 
