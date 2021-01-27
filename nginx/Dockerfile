@@ -1,18 +1,19 @@
 
-FROM alpine:latest
+FROM alpine:3.7
 
 RUN apk --no-cache update && \
-    apk --no-cache add nginx
+    apk --no-cache add nginx &&\
+    apk add --no-cache --upgrade bash &&\
+    apk add --no-cache openssl openssh
 
-RUN mkdir -p /run/nginx \
-    && apk add --no-cache openssh-server openrc git rsync \
-    && mkdir -p /run/openrc \
-    && touch /run/openrc/softlevel
+RUN mkdir -p /run/nginx
 
-RUN mkdir /usr/share/nginx/html
+RUN mkdir -p /www
+COPY ./index.html /www
 
-COPY etc/nginx.conf /etc/nginx/nginx.conf
-COPY html/index.html /usr/share/nginx/html/index.html
+COPY ./etc/nginx.conf /etc/nginx/nginx.conf
 COPY etc/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
-ENTRYPOINT ["sh","-c", "rc-status; rc-service nginx start; crond -f"]
+EXPOSE 80 443 22
+
+CMD ["/bin/bash"]
