@@ -41,6 +41,6 @@ RUN chmod +x /script.sh
 
 EXPOSE 80 443 22
 
-CMD /script.sh
+CMD ["sh", "/script.sh"]
 
 ## docker run -it -p 8000:80 -p 2222:22 -p 4043:443 alpine-nginx
